@@ -1,6 +1,7 @@
 import json
 import tornado.ioloop
 import tornado.web
+from tornado.web import StaticFileHandler
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -25,9 +26,9 @@ class UpdateHandler(tornado.web.RequestHandler):
 
 
 application = tornado.web.Application([
-    (r"/", MainHandler),
     (r"/api/update", MainHandler),
     (r"/api/data", DataHandler),
+    (r"/", StaticFileHandler, {'path': './static'}),
 ])
 
 if __name__ == "__main__":
