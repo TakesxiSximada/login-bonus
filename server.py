@@ -16,6 +16,14 @@ class DataHandler(tornado.web.RequestHandler):
         self.write(data)
 
 
+class UpdateHandler(tornado.web.RequestHandler):
+    def post(self):
+        data = json.dumps({
+            'status': 'success',
+            })
+        self.write(data)
+
+
 application = tornado.web.Application([
     (r"/", MainHandler),
     (r"/api/update", MainHandler),
