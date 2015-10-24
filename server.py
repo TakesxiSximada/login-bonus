@@ -28,7 +28,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 application = tornado.web.Application([
     (r"/api/update", MainHandler),
     (r"/api/data", DataHandler),
-    (r"/", StaticFileHandler, {'path': './static'}),
+    (r"/(.*)", StaticFileHandler, {'path': './static'}),
 ])
 
 if __name__ == "__main__":
