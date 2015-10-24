@@ -1,3 +1,4 @@
+import json
 import tornado.ioloop
 import tornado.web
 
@@ -5,8 +6,20 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world")
 
+
+class DataHandler(tornado.web.RequestHandler):
+    def get(self):
+        data = json.dumps({
+            'id': 'DEVICE_ID',
+            'count': 5,
+            })
+        self.write(data)
+
+
 application = tornado.web.Application([
     (r"/", MainHandler),
+    (r"/api/update", MainHandler),
+    (r"/api/data", DataHandler),
 ])
 
 if __name__ == "__main__":
