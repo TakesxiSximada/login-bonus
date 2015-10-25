@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import json
+import argparse
 import tornado.ioloop
 import tornado.web
 from tornado.web import StaticFileHandler
@@ -101,16 +102,18 @@ class SessionFactory(object):
 
 
 def main(argv=sys.argv[1:]):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', default=80)
+    args = parser.parse_args(argv)
+
     engine = sa.create_engine('sqlite://')
     Session = sa_orm.sessionmaker(bind=engine, extension=ZopeTransactionExtension())
     registry = Components()
     registry.registerUtility(SessionFactory(Session), IFactory, 'db-master')
     init_registry(registry)
+    Base.metadata.create_all(engine)
 
-    session = create_object([IFactory, 'db-master'])
-    session.metadata.create_all(engine)
-
-    application.listen(80)
+    application.listen(args.port)
     tornado.ioloop.IOLoop.current().start()
 
 
