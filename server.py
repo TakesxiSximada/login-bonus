@@ -13,7 +13,7 @@ from zope.interface import Interface  # noqa
 from zope.interface.registry import Components
 from zope.component.interfaces import IFactory
 
-from zope.sqlalchmey import ZopeTransactionExtension
+from zope.sqlalchemy import ZopeTransactionExtension
 
 
 Base = declarative_base()
