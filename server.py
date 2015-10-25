@@ -9,7 +9,10 @@ import sqlalchemy as sa
 import sqlalchemy.orm as sa_orm
 from sqlalchemy.ext.declarative import declarative_base
 
-from zope.interface import Interface  # noqa
+from zope.interface import (
+    Interface,  # noqa
+    implementer,
+    )
 from zope.interface.registry import Components
 from zope.component.interfaces import IFactory
 
@@ -88,7 +91,8 @@ def init_registry(registry):
     gsm.registerUtility(registry, IComponents)
 
 
-class SessionFactory(IFactory):
+@implementer(IFactory)
+class SessionFactory(object):
     def __init__(self, sessionmaker):
         self._sessionmaker = sessionmaker
 
