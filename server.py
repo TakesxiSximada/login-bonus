@@ -56,8 +56,9 @@ class DataHandler(tornado.web.RequestHandler):
 
 class UpdateHandler(tornado.web.RequestHandler):
     def post(self):
-        device_code = self.request.arguments['device_code'][0].decode()
-        hit = self.request.arguments['hit'][0].decode()
+        data = json.loads(self.request.body)
+        device_code = data['device_code']
+        hit = data['hit']
         device_log = DeviceLog(
             code=device_code,
             hit=hit,
