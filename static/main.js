@@ -29,3 +29,28 @@ setInterval(function (){
         }
     });
 }, 1000);
+
+// #66cdcc disable
+// #ff6699 enable
+
+$('#start').on('click', function (event){
+    $(event.target).css({
+        'background': '#66cdcc',
+        'border-color': '#66cdcc'
+    });
+    var end = $('#end').css({
+        'background': '#ff6699',
+        'border-color': '#ff6699'
+    });
+});
+
+$('#end').on('click', function (event){
+    $(event.target).css({
+        'background': '#66cdcc',
+        'border-color': '#66cdcc'
+    });
+    var end = $('#start').css({
+        'background': '#ff6699',
+        'border-color': '#ff6699'
+    });
+});
