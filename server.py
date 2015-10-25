@@ -64,7 +64,7 @@ def create_object(query, *args, **kwds):
     registry = get_registry()
     factory = None
 
-    if isinstance(list, query) or isinstance(tuple, query):
+    if isinstance(query, int) or isinstance(query, tuple):
         factory = registry.queryUtility(*query)
     elif isinstance(query, dict):
         factory = registry.queryUtility(**query)
