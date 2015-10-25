@@ -20,7 +20,7 @@ setInterval(function (){
         data: "device_code=1015fa8",  // B
         dataType: 'JSON',
         success: function(msg){
-            var point = document.querySelector('#point-a');
+            var point = document.querySelector('#point-b');
             console.log( "Data Saved: " + msg );
             $(point).text(msg.count);
         },
