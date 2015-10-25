@@ -18,6 +18,7 @@ from zope.interface import (
 from zope.interface.registry import Components
 from zope.component.interfaces import IFactory
 
+import transaction
 from zope.sqlalchemy import ZopeTransactionExtension
 
 
@@ -28,6 +29,7 @@ class DeviceLog(Base):
     __tablename__ = 'DeviceLog'
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    code = sa.Column(sa.String)
     hit = sa.Column(sa.String, default='false')
 
 
@@ -38,17 +40,32 @@ class MainHandler(tornado.web.RequestHandler):
 
 class DataHandler(tornado.web.RequestHandler):
     def get(self):
+
+        device_code = self.request.query_arguments['device_code'][0].decode()
         session = create_object([IFactory, 'db-master'])
-        session.query(DeviceLog).all()
+        device_logs = session \
+            .query(DeviceLog) \
+            .filter(DeviceLog.code == device_code) \
+            .all()
         data = json.dumps({
-            'id': 'DEVICE_ID',
-            'count': 5,
+            'device_code': device_code,
+            'count': len(device_logs),
             })
         self.write(data)
 
 
 class UpdateHandler(tornado.web.RequestHandler):
     def post(self):
+        device_code = self.request.arguments['device_code'][0].decode()
+        hit = self.request.arguments['hit'][0].decode()
+        device_log = DeviceLog(
+            code=device_code,
+            hit=hit,
+            )
+        session = create_object([IFactory, 'db-master'])
+        session.add(device_log)
+        session.flush()
+        transaction.commit()
         data = json.dumps({
             'status': 'success',
             })
@@ -56,7 +73,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 
 
 application = tornado.web.Application([
-    (r"/api/update", MainHandler),
+    (r"/api/update", UpdateHandler),
     (r"/api/data", DataHandler),
     (r"/(.*)", YAStaticFileHandler, {'path': './static'}),
 ])
