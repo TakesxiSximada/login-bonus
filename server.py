@@ -5,6 +5,7 @@ import argparse
 import tornado.ioloop
 import tornado.web
 from tornado.web import StaticFileHandler
+from sandstorm.handlers import YAStaticFileHandler
 
 import sqlalchemy as sa
 import sqlalchemy.orm as sa_orm
@@ -57,7 +58,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 application = tornado.web.Application([
     (r"/api/update", MainHandler),
     (r"/api/data", DataHandler),
-    (r"/(.*)", StaticFileHandler, {'path': './static'}),
+    (r"/(.*)", YAStaticFileHandler, {'path': './static'}),
 ])
 
 
