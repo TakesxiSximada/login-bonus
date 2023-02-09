@@ -10,3 +10,8 @@ minetest.register_chatcommand("symdon", {
        minetest.chat_send_player(name, "Hello minetest!!")
      end
 })
+
+minetest.register_on_joinplayer(function (player)
+  local name = player:get_player_name()
+  minetest.chat_send_player(name, "Testing!!")
+end)
