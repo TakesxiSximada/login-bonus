@@ -21,8 +21,9 @@ minetest.register_on_joinplayer(function (player)
       local last_timestamp = player_meta:get_int("login_bonus:last_timestamp")
       local current_timestamp = os.time(os.date("!*t"))
 
-      local last_date = os.date("%Y%m%d", last_timestamp)
-      local current_date = os.date("%Y%m%d", current_timestamp)
+      -- UTC to JST
+      local last_date = os.date("%Y%m%d", last_timestamp + 32400)
+      local current_date = os.date("%Y%m%d", current_timestamp + 32400)
 
       -- 当日付与済みであるため付与しない
       if last_date == current_date then
