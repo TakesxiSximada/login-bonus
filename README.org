@@ -1,0 +1,7 @@
+#+TITLE: Login Bonus
+
+Give players a login bonus in the minetest world.
+
+* LICENSES
+
+https://www.gnu.org/licenses/agpl-3.0.html
